@@ -1,25 +1,29 @@
-import logo from './logo.svg';
-import './App.css';
+import React, { useReducer, createContext } from 'react';
+import reducer from './reducer';
+import List from './List';
+import Form from './Form';
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+export const HOST_API = "http://localhost:8080/api";
+
+
+const initialState = {
+    list: [],
+    item: {}
+};
+
+export const Store = createContext(initialState);
+
+const StoreProvider = ({ children }) => {
+  const [state, dispatch] = useReducer(reducer, initialState);
+  return <Store.Provider value={{ state, dispatch }}>
+    {children}
+  </Store.Provider>
 }
 
+function App() {
+  return <StoreProvider>
+    <Form />
+    <List />
+  </StoreProvider>
+}
 export default App;
