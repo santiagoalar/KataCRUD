@@ -3,18 +3,18 @@ function reducer(state, action) {
     switch (action.type) {
         case 'update-item':
             const listUpdateEdit = state.list.map((item) => {
-                return (item === action.item.id) ? action.item : item;
+                return (item.id === action.item.id) ? action.item : item;
             });
             return { ...state, list: listUpdateEdit, item: {}}
         case 'delete-item':
-            const listUpdate = state.filter((item) => {
+            const listUpdate = state.list.filter((item) => {
                 return item.id !== action.id;
             })
-            return { ...state, list: action.item }
-        case 'update-list':
             return { ...state, list: listUpdate }
+        case 'update-list':
+            return { ...state, list: action.list }
         case 'edit-item':
-            return { ...state, list: action.item }
+            return { ...state, item: action.item }
         case 'add-item':
             const newList = state.list;
             newList.push(action.item);
